@@ -67,9 +67,7 @@ namespace FocalAgent.Controllers
                                              ReleaseYear = group.First().ReleaseYear
                                          });
 
-            var sortedData = groupedData.OrderByDescending(x => x.AverageWatchDurationS);
-
-            var outputData = sortedData.Select(item => new
+            var outputData = groupedData.Select(item => new
             {
                 movieId = item.MovieId,
                 title = item.Title,
@@ -78,7 +76,9 @@ namespace FocalAgent.Controllers
                 releaseYear = item.ReleaseYear
             });
 
-            return Ok(outputData);
+            var sortedData = outputData.OrderByDescending(x => x.watches);
+
+            return Ok(sortedData);
         }
 
         private List<Metadata> ReadMetadataFromCsv()
